@@ -6,7 +6,7 @@
   <title>Valentine?</title>
   <style>
     .couple-image {
-  width: 220px;       /* Bildgröße */
+  width: 220px;      
   max-width: 75%;
   height: auto;
   border-radius: 18px;
@@ -111,15 +111,11 @@
     <h1>Willst du mein Valentine sein? ❤︎</h1>
 
 
-
- <!-- ✅ HIER EUER BILD EINFÜGEN
-       Ersetze den src-Wert durch deinen Bildnamen oder Bildlink -->
   <img
     src="https://shirozunty-bit.github.io/valentine/test.png"
     alt="Wir beide"
     class="couple-image"
   />
-  <!-- ✅ ENDE BILD-STELLE -->
 
     <div class="buttons" id="buttons">
       <button id="yesBtn" type="button">Ja</button>
@@ -129,15 +125,13 @@
     <div class="result" id="result">
       <div class="yay">YAY! 🎉</div>
 
-      <!-- ✅ HIER GIF EINFÜGEN:
-           Ersetze den src-Wert durch deinen GIF-Pfad/Link. -->
       <img
         id="yayGif"
         class="gif"
         src="test2.gif"
         alt="Yay GIF"
       />
-      <!-- ✅ ENDE GIF-STELLE -->
+      
     </div>
 
    
@@ -167,7 +161,7 @@
     }
 
     yesBtn.addEventListener("click", () => {
-      // Buttons ausblenden und Ergebnis anzeigen
+      // JA NEIN ausblenden und Ergebnis anzeigen
       buttons.style.display = "none";
       result.classList.add("show");
     });
@@ -177,8 +171,7 @@
       noScale  *= NO_SHRINK;
 
       if (noScale <= NO_MIN_SCALE) {
-        noScale = 0.0001;  // quasi weg
-        // Optional: komplett deaktivieren/ausblenden
+        noScale = 0.0001;  // immer durchsichtiger
         noBtn.disabled = true;
         noBtn.style.display = "none";
       }
@@ -190,6 +183,7 @@
   </script>
 </body>
 </html>
+
 
 
 
