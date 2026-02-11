@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Valentine?</title>
+  <style>
+    :root { --yesScale: 1; --noScale: 1; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, #ffe6f1, #fff6fb);
+      color: #1a1a1a;
+    }
+
+    .card {
+      width: min(520px, 92vw);
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 20px;
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      font-size: clamp(22px, 3.2vw, 30px);
+      margin: 0 0 18px;
+      line-height: 1.2;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: 700;
+      transition: transform 120ms ease, opacity 120ms ease;
+      user-select: none;
+      min-width: 140px;
+    }
+
+    #yesBtn {
+      background: #ff3b7a;
+      color: white;
+      transform: scale(var(--yesScale));
+    }
+
+    #noBtn {
+      background: #f1f1f1;
+      color: #111;
+      transform: scale(var(--noScale));
+    }
+
+    .result {
+      margin-top: 18px;
+      display: none;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .yay {
+      font-size: 26px;
+      font-weight: 900;
+      margin: 10px 0 14px;
+    }
+
+    .gif {
+      max-width: 100%;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+    }
+
+    .hint {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Willst du mein Valentine sein? ❤︎</h1>
+
+
+
+ <!-- ✅ HIER EUER BILD EINFÜGEN
+       Ersetze den src-Wert durch deinen Bildnamen oder Bildlink -->
+  <img
+    src="EUER_BILD_HIER.jpg"
+    alt="Wir beide"
+    class="couple-image"
+  />
+  <!-- ✅ ENDE BILD-STELLE -->
+
+    <div class="buttons" id="buttons">
+      <button id="yesBtn" type="button">Ja</button>
+      <button id="noBtn" type="button">Nein</button>
+    </div>
+
+    <div class="result" id="result">
+      <div class="yay">YAY! 🎉</div>
+
+      <!-- ✅ HIER GIF EINFÜGEN:
+           Ersetze den src-Wert durch deinen GIF-Pfad/Link. -->
+      <img
+        id="yayGif"
+        class="gif"
+        src="PASTE_YOUR_GIF_HERE.gif"
+        alt="Yay GIF"
+      />
+      <!-- ✅ ENDE GIF-STELLE -->
+    </div>
+
+   
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const result = document.getElementById("result");
+    const buttons = document.getElementById("buttons");
+
+    // Startgrößen
+    let yesScale = 1;
+    let noScale = 1;
+
+    // Wie stark sich die Buttons pro "Nein" verändern sollen
+    const YES_GROWTH = 1.12;   // +12%
+    const NO_SHRINK  = 0.86;   // -14%
+
+    // Ab wann "Nein" praktisch verschwunden ist
+    const NO_MIN_SCALE = 0.06;
+
+    function applyScales() {
+      document.documentElement.style.setProperty("--yesScale", yesScale.toFixed(4));
+      document.documentElement.style.setProperty("--noScale",  noScale.toFixed(4));
+      noBtn.style.opacity = Math.max(0, Math.min(1, (noScale - NO_MIN_SCALE) / (1 - NO_MIN_SCALE)));
+      noBtn.setAttribute("aria-hidden", noScale <= NO_MIN_SCALE ? "true" : "false");
+      noBtn.tabIndex = noScale <= NO_MIN_SCALE ? -1 : 0;
+    }
+
+    yesBtn.addEventListener("click", () => {
+      // Buttons ausblenden und Ergebnis anzeigen
+      buttons.style.display = "none";
+      result.classList.add("show");
+    });
+
+    noBtn.addEventListener("click", () => {
+      yesScale *= YES_GROWTH;
+      noScale  *= NO_SHRINK;
+
+      if (noScale <= NO_MIN_SCALE) {
+        noScale = 0.0001;  // quasi weg
+        // Optional: komplett deaktivieren/ausblenden
+        noBtn.disabled = true;
+        noBtn.style.display = "none";
+      }
+
+      applyScales();
+    });
+
+    applyScales();
+  </script>
+</body>
+</html>
